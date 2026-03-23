@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Agendamento - DOE+{% endblock %}
+
+{% block content %}
+
+    <section class="card">
+        <h1 class="card-title">Editar Agendamento</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% if not cpf_ok %}
+            <p class="card-text">Para editar ou excluir este agendamento, informe o CPF do usuário:</p>
+
+            {% if cpf_provided %}
+                <div class="flash error">CPF incorreto.</div>
+            {% endif %}
+
+            <form method="GET" action="{{ url_for('tela2_4', id=agendamento.id) }}" class="form-grid">
+                <label class="col-12" for="cpf">CPF:</label>
+                <input class="col-12" type="text" name="cpf" id="cpf" placeholder="Digite o CPF" required>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Continuar</button>
+                    <a class="btn btn-secondary" href="{{ url_for('tela2_2') }}">Voltar</a>
+                </div>
+            </form>
+        {% else %}
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Usuário</span>
+                    <span class="info-value">{{ agendamento.usuario_nome }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">CPF</span>
+                    <span class="info-value">{{ agendamento.usuario_cpf }}</span>
+                </div>
+            </div>
+
+            <form method="POST" action="{{ url_for('tela2_4', id=agendamento.id) }}" class="form-grid">
+                <input type="hidden" name="cpf" value="{{ cpf_provided }}">
+
+                <label class="col-12" for="cidade">Cidade:</label>
+                <select class="col-6" id="cidade" name="cidade" required>
+                    <option value="">Selecione a Cidade</option>
+                    {% for cidade in cidades %}
+                        <option value="{{ cidade.id }}" {% if cidade.id == agendamento.cidade_id %}selected{% endif %}>
+                            {{ cidade.nome }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label class="col-12" for="homocentro">Homocentro:</label>
+                <select class="col-6" id="homocentro" name="homocentro" required>
+                    <!-- Será preenchido por JS -->
+                </select>
+
+                <label class="col-12" for="data_doacao">Data da Doação:</label>
+                <input class="col-12" type="date" name="data_doacao" value="{{ agendamento.data_doacao }}" required>
+
+                <div class="form-actions">
+                    <button type="submit" name="action" value="save" class="btn btn-primary">Salvar</button>
+                    <button type="submit" name="action" value="delete" class="btn danger">Excluir</button>
+                    <a class="btn btn-secondary" href="{{ url_for('tela2_2') }}">Voltar</a>
+                </div>
+            </form>
+        {% endif %}
+
+    </section>
+{% endblock %}
+
+{% block scripts %}
+{% if cpf_ok %}
+<script>
+    function carregarHomocentros(cidadeId, homocentroSelecionado = null) {
+        const homocentroSelect = document.getElementById('homocentro');
+        if (!cidadeId) {
+            homocentroSelect.innerHTML = '<option value="">Selecione o homocentro</option>';
+            return;
+        }
+
+        homocentroSelect.innerHTML = '<option>Carregando...</option>';
+
+        fetch(`/buscar_homocentros/${cidadeId}`)
+            .then(resp => resp.json())
+            .then(data => {
+                homocentroSelect.innerHTML = '<option value="">Selecione o homocentro</option>';
+                data.forEach(h => {
+                    const option = document.createElement('option');
+                    option.value = h.id;
+                    option.textContent = h.nome;
+                    if (homocentroSelecionado && h.id == homocentroSelecionado) option.selected = true;
+                    homocentroSelect.appendChild(option);
+                });
+            })
+            .catch(() => {
+                homocentroSelect.innerHTML = '<option value="">Erro ao carregar</option>';
+            });
+    }
+
+    const cidadeSelect = document.getElementById('cidade');
+    const homocentroIdAtual = {{ agendamento.homocentro_id | default('null') }};
+
+    if (cidadeSelect) {
+        carregarHomocentros(cidadeSelect.value, homocentroIdAtual);
+        cidadeSelect.addEventListener('change', () => {
+            carregarHomocentros(cidadeSelect.value);
+        });
+    }
+</script>
+{% endif %}
+{% endblock %}

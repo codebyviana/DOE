@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Compatibilidade Sanguínea{% endblock %}
+
+{% block content %}
+    <section class="card">
+        <h1 class="card-title">Compatibilidade Sanguínea</h1>
+        <p class="card-text">Veja abaixo quais tipos de sangue podem receber de quais doadores:</p>
+
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Pode receber de</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>O−</td><td>O−</td></tr>
+                    <tr><td>O+</td><td>O−, O+</td></tr>
+                    <tr><td>A−</td><td>O−, A−</td></tr>
+                    <tr><td>A+</td><td>O−, O+, A−, A+</td></tr>
+                    <tr><td>B−</td><td>O−, B−</td></tr>
+                    <tr><td>B+</td><td>O−, O+, B−, B+</td></tr>
+                    <tr><td>AB−</td><td>O−, A−, B−, AB−</td></tr>
+                    <tr><td>AB+</td><td>Todos os tipos</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-actions">
+            <a class="btn btn-secondary" href="{{ url_for('tela2') }}">Voltar</a>
+        </div>
+    </section>
+{% endblock %}

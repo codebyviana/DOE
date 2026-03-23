@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="main">
+        <section class="card">
+            <h1 class="card-title">Algo deu errado</h1>
+            <p class="card-text">{{ message }}</p>
+            <p class="card-text">Verifique as variáveis de ambiente de banco de dados e os logs do Railway.</p>
+            <a class="btn btn-secondary" href="/">Voltar</a>
+        </section>
+    </main>
+</body>
+</html>

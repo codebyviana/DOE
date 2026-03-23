@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}DOE+ - Conectando Vidas{% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Conectando Vidas</h1>
+            <p class="hero-subtitle">Doe com segurança e acompanhe o impacto real da sua solidariedade.</p>
+
+            <div class="hero-cta">
+                <a href="{{ url_for('tela2') }}" class="btn btn-primary">Fazer Doação</a>
+                <a href="{{ url_for('tela2') }}" class="btn btn-secondary">Login</a>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <img src="{{ url_for('static', filename='logo2.png') }}" alt="Ilustração Doe+" class="hero-image">
+        </div>
+    </section>
+
+    <section class="cards">
+        <div class="card">
+            <h2 class="card-title">Como Funciona</h2>
+            <p class="card-text">Encontre oportunidades de doação, conecte-se com quem precisa e acompanhe o progresso da sua contribuição.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-title">Seguro e Transparente</h2>
+            <p class="card-text">Todas as doações são registradas e você recebe atualizações sobre o destino e impacto da sua ajuda.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-title">Comunidade Forte</h2>
+            <p class="card-text">Faça parte de uma rede de pessoas que acreditam que pequenas ações podem transformar vidas.</p>
+        </div>
+    </section>
+{% endblock %}

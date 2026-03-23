@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Menu - DOE+{% endblock %}
+
+{% block content %}
+
+    <!-- Conteúdo principal -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Bem-vindo ao DOE+</h1>
+            <p class="hero-subtitle">Escolha abaixo o que você deseja fazer.</p>
+
+            <div class="cards">
+                <a href="{{ url_for('tela2_1') }}" class="card card-action">
+                    <h3>Agendar doação</h3>
+                    <p>Marque sua próxima doação de sangue com segurança.</p>
+                </a>
+                <a href="{{ url_for('tela2_2') }}" class="card card-action">
+                    <h3>Meus agendamentos</h3>
+                    <p>Veja e gerencie seus agendamentos.</p>
+                </a>
+                <a href="{{ url_for('tela2_2') }}" class="card card-action">
+                    <h3>Editar agendamento</h3>
+                    <p>Atualize ou cancele um agendamento existente.</p>
+                </a>
+                <a href="{{ url_for('tela2_5') }}" class="card card-action">
+                    <h3>Quem pode doar</h3>
+                    <p>Regras básicas para doadores.</p>
+                </a>
+                <a href="{{ url_for('tela2_3') }}" class="card card-action">
+                    <h3>Compatibilidade</h3>
+                    <p>Veja quais tipos sanguíneos são compatíveis.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

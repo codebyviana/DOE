@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Agendamentos - DOE+{% endblock %}
+
+{% block content %}
+    <section class="card">
+        <h1 class="card-title">Agendamentos</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="GET" class="form-grid" style="margin-bottom: 30px;">
+            <label class="col-12" for="cpf">Digite seu CPF para ver/agendar:</label>
+            <input class="col-12" type="tel" name="cpf" id="cpf" value="{{ cpf }}" maxlength="11" placeholder="CPF" required>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                <a class="btn btn-secondary" href="{{ url_for('tela2') }}">Voltar</a>
+            </div>
+        </form>
+
+        {% if cpf %}
+            {% if agendamentos %}
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Usuário</th>
+                                <th>Homocentro</th>
+                                <th>Cidade</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in agendamentos %}
+                                <tr>
+                                    <td>{{ a.usuario }}</td>
+                                    <td>{{ a.homocentro }}</td>
+                                    <td>{{ a.cidade }}</td>
+                                    <td>{{ a.data_doacao }}</td>
+                                    <td>{{ a.status }}</td>
+                                    <td>
+                                        <a class="btn btn-secondary" href="{{ url_for('tela2_4', id=a.id) }}?cpf={{ cpf }}">Editar</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>Nenhum agendamento encontrado para este CPF.</p>
+            {% endif %}
+        {% endif %}
+    </section>
+{% endblock %}

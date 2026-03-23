@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Quem Pode Doar{% endblock %}
+
+{% block content %}
+    <section class="card">
+        <h1 class="card-title">Quem Pode Doar</h1>
+        <p class="card-text">Algumas regras importantes para doadores:</p>
+
+        <ul class="card-list">
+            <li>Ter entre 16 e 69 anos.</li>
+            <li>Pesar no mínimo 50 kg.</li>
+            <li>Estar em boas condições de saúde no dia da doação.</li>
+            <li>Não ter feito tatuagem ou piercing nas últimas 12 semanas.</li>
+            <li>Estar descansado e alimentado.</li>
+        </ul>
+
+        <div class="form-actions">
+            <a class="btn btn-secondary" href="{{ url_for('tela2') }}">Voltar</a>
+        </div>
+    </section>
+{% endblock %}

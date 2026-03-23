@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Agendar Doação - Conectando Vidas{% endblock %}
+
+{% block content %}
+    <section class="card form-card">
+
+        <h1 class="form-title">Agendamento de Doação</h1>
+
+        <!-- mensagem -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('agendar') }}" method="POST" class="form-grid">
+            <input class="col-6" type="text" name="nome" placeholder="Nome" required>
+            <input class="col-6" type="email" name="email" placeholder="E-mail" required>
+            <input class="col-4" type="tel" name="cpf" placeholder="CPF" maxlength="11" required>
+            <input class="col-2" type="number" name="idade" placeholder="Idade" min="0" max="120" required>
+            <input class="col-6" type="tel" name="telefone" placeholder="Telefone" required>
+            <input class="col-6" type="text" name="tipo_sanguineo" placeholder="Tipo Sanguíneo" required>
+            <input class="col-6" type="tel" name="cep" placeholder="CEP" maxlength="8" required>
+            <input class="col-12" type="text" name="endereco" placeholder="Endereço" required>
+
+            <select class="col-6" id="cidade" name="cidade" required>
+                <option value="">Selecione a cidade</option>
+                {% for cidade in cidades %}
+                    <option value="{{ cidade.id }}">{{ cidade.nome }}</option>
+                {% endfor %}
+            </select>
+
+            <select class="col-6" id="homocentro" name="homocentro" required>
+                <option value="">Selecione o homocentro</option>
+            </select>
+
+            <input class="col-12" type="date" name="data_doacao" required>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Agendar</button>
+                <a class="btn btn-secondary" href="{{ url_for('tela2') }}">Voltar</a>
+            </div>
+        </form>
+
+    </section>
+
+    <!--  homocentros -->
+    <script>
+        document.getElementById('cidade').addEventListener('change', function() {
+            const cidade_id = this.value;
+            const homocentroSelect = document.getElementById('homocentro');
+
+            if (!cidade_id) {
+                homocentroSelect.innerHTML = '<option value="">Selecione o homocentro</option>';
+                return;
+            }
+
+            homocentroSelect.innerHTML = '<option value="">Carregando...</option>';
+
+            fetch(`/buscar_homocentros/${cidade_id}`)
+                .then(response => response.json())
+                .then(data => {
+                    homocentroSelect.innerHTML = '<option value="">Selecione o homocentro</option>';
+                    data.forEach(h => {
+                        const option = document.createElement('option');
+                        option.value = h.id;
+                        option.textContent = h.nome;
+                        homocentroSelect.appendChild(option);
+                    });
+                })
+                .catch(err => {
+                    homocentroSelect.innerHTML = '<option value="">Erro ao carregar</option>';
+                    console.error(err);
+                });
+        });
+    </script>
+
+{% endblock %}
