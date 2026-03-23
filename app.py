@@ -13,12 +13,12 @@ db_error = None
 
 try:
     db = mysql.connector.connect(
-        host=os.getenv("MYSQLHOST", os.getenv("DB_HOST", "localhost")),
-        user=os.getenv("MYSQLUSER", os.getenv("DB_USER", "root")),
-        password=os.getenv("MYSQLPASSWORD", os.getenv("DB_PASSWORD", "#Jenifer2007")),
-        database=os.getenv("MYSQLDATABASE", os.getenv("DB_NAME", "DOE")),
-        port=int(os.getenv("MYSQLPORT", os.getenv("DB_PORT", "3306")))
-    )
+    host=os.getenv("MYSQLHOST"),
+    user=os.getenv("MYSQLUSER"),
+    password=os.getenv("MYSQLPASSWORD"),
+    database=os.getenv("MYSQLDATABASE"),
+    port=int(os.getenv("MYSQLPORT", 3306))
+)
 
     cursor = db.cursor(dictionary=True)
     print("Conectado ao MySQL")
