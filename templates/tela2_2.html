@@ -31,28 +31,28 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Usuário</th>
-                                <th>Homocentro</th>
-                                <th>Cidade</th>
-                                <th>Data</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for a in agendamentos %}
-                                <tr>
-                                    <td>{{ a.usuario }}</td>
-                                    <td>{{ a.homocentro }}</td>
-                                    <td>{{ a.cidade }}</td>
-                                    <td>{{ a.data_doacao }}</td>
-                                    <td>{{ a.status }}</td>
-                                    <td>
-                                        <a class="btn btn-secondary" href="{{ url_for('tela2_4', id=a.id) }}?cpf={{ cpf }}">Editar</a>
-                                    </td>
+                                    <th>Usuário</th>
+                                    <th>Homocentro</th>
+                                    <th>Cidade</th>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
+                            </thead>
+                            <tbody>
+                                {% for a in agendamentos %}
+                                    <tr>
+                                        <td>{{ a.usuario }}</td>
+                                        <td>{{ a.homocentro }}</td>
+                                        <td>{{ a.cidade }}</td>
+                                        <td>{{ a.data_doacao }}</td>
+                                        <td>{{ a.status }}</td>
+                                        <td>
+                                            <a class="btn btn-secondary" href="{{ url_for('tela2_4', id=a.id) }}?cpf={{ cpf }}">Editar</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                          </tbody>
                     </table>
                 </div>
             {% else %}

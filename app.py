@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
 import os
 import mysql.connector
+import re
 
 app = Flask(__name__)
 app.secret_key = "doe_plus_secret"

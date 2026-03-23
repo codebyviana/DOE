@@ -6,7 +6,6 @@
 
         <h1 class="form-title">Agendamento de Doação</h1>
 
-        <!-- mensagem -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="flash-container">
@@ -48,7 +47,6 @@
 
     </section>
 
-    <!--  homocentros -->
     <script>
         document.getElementById('cidade').addEventListener('change', function() {
             const cidade_id = this.value;
