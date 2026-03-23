@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
 import os
-import re
 import mysql.connector
 
 app = Flask(__name__)
@@ -11,27 +10,30 @@ db = None
 cursor = None
 db_error = None
 
-try:
-    db = mysql.connector.connect(
-    host=os.getenv("MYSQLHOST"),
-    user=os.getenv("MYSQLUSER"),
-    password=os.getenv("MYSQLPASSWORD"),
-    database=os.getenv("MYSQLDATABASE"),
-    port=int(os.getenv("MYSQLPORT", 3306))
-)
+def conectar_db():
+    global db, cursor, db_error
+    try:
+        db = mysql.connector.connect(
+            host=os.getenv("MYSQLHOST") or "localhost",
+            user=os.getenv("MYSQLUSER") or "root",
+            password=os.getenv("MYSQLPASSWORD") or "",
+            database=os.getenv("MYSQLDATABASE") or "railway",
+            port=int(os.getenv("MYSQLPORT") or 3306)
+        )
 
-    cursor = db.cursor(dictionary=True)
-    print("Conectado ao MySQL")
+        cursor = db.cursor(dictionary=True)
+        db_error = None
+        print("Conectado ao MySQL")
 
-except mysql.connector.Error as err:
-    db_error = err
-    print("Erro conexão:", err)
-
+    except mysql.connector.Error as err:
+        db_error = err
+        print("Erro conexão:", err)
 
 def check_db():
-    """Retorna (cursor, erro) para permitir páginas mostrarem falha de conexão."""
+    global db, cursor
+    if db is None or not db.is_connected():
+        conectar_db()
     return cursor, db_error
-
 
 @app.route('/')
 def tela1():
